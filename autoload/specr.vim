@@ -1,12 +1,21 @@
 " SPECR PLUGIN
 
 
+" RUN
 function! specr#run(...) abort
   if empty(a:000)
-    call DirectSpec(expand('%'))
+    let s:found_filepath = call DirectSpec(expand('%'))
   else
-    call DirectSpec(a:1)
+    let s:found_filepath = call DirectSpec(a:1)
   end
+  call RenderSpec(s:found_filepath)
+endfunction
+
+
+" COPY
+function! specr#copy(...) abort
+  let l:found_filepath = call DirectSpec(expand('%'))
+  +=l:found_filepath
 endfunction
 
 
@@ -14,9 +23,9 @@ function! DirectSpec(argpath) abort
   " Example of true statement: spec/folder1/folder2/controller_spec.rb (exists)
 
   if and(split(a:argpath, '/')[0] == 'spec', a:argpath[-7:-1] == 'spec.rb')
-    call RenderSpec( a:argpath )
+    return a:argpath
   else
-    call FindSpecLiteral(a:argpath)
+    return FindSpecLiteral(a:argpath)
   endif
 endfunction
 
@@ -28,9 +37,9 @@ function! FindSpecLiteral(argpath) abort
   let l:lookup_filepath = join(['spec'] + split(a:argpath, '/')[1:-2] + [l:lookup_filename], '/')
 
   if filereadable(l:lookup_filepath)
-    call RenderSpec( l:lookup_filepath )
+    return l:lookup_filepath
   else
-    call FindSpecGlob(a:argpath)
+    return FindSpecGlob(a:argpath)
   endif
 endfunction
 
@@ -44,9 +53,9 @@ function! FindSpecGlob(argpath) abort
   let l:lookup_result = glob(l:lookup_string)
 
   if filereadable(l:lookup_result)
-    call RenderSpec( l:lookup_result )
+    return l:lookup_result
   else
-    call RenderSpec( FindSpecDir(a:argpath) )
+    return FindSpecDir(a:argpath)
   endif
 endfunction
 
