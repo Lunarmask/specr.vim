@@ -4,19 +4,21 @@
 " RUN
 function! specr#run(...) abort
   if empty(a:000)
-    let s:found_filepath = call DirectSpec(expand('%'))
+    call RenderSpec(DirectSpec(expand('%')))
   else
-    let s:found_filepath = call DirectSpec(a:1)
+    call RenderSpec(DirectSpec(a:1))
   end
-  call RenderSpec(s:found_filepath)
 endfunction
 
 
 " COPY
 function! specr#copy(...) abort
-  let l:found_filepath = call DirectSpec(expand('%'))
-  +=l:found_filepath
+  let l:found_filepath = DirectSpec(expand('%'))
+  let l:message = join(["RSpec path: '", l:found_filepath, "' copied to system clipboard."], '')
+  echom l:message
+  let @+ = l:found_filepath
 endfunction
+
 
 
 function! DirectSpec(argpath) abort
