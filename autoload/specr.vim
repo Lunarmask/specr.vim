@@ -20,6 +20,16 @@ function! specr#copy(...) abort
 endfunction
 
 
+" OPEN
+function! specr#open(...) abort
+  let l:found_filepath = DirectSpec(expand('%'))
+  let l:message = join(["RSpec path: '", l:found_filepath, "' is opening."], '')
+  let $specr_final = l:found_filepath
+  echom l:message
+  below new $specr_final
+endfunction
+
+
 
 function! DirectSpec(argpath) abort
   " Example of true statement: spec/folder1/folder2/controller_spec.rb (exists)
