@@ -19,6 +19,7 @@ Install with [Vim-Plug](https://github.com/junegunn/vim-plug)!
 
 `<leader>t`  Will send Specr to run your testfile.  
 `<leader>ty` Will tell Specr to copy the test_path to your system clipboard.  
+`<leader>to` Will tell Specr to open the test_path in a new horizontal window split.  
 
 ---
 
